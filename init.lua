@@ -9,7 +9,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-
+-- Extra comment, for testing git
 
 vim.g.have_nerd_font = true
 
