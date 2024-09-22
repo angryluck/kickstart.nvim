@@ -1,0 +1,8 @@
+{
+  "languageserver": {
+    "isabelle": {
+      "enable": true,
+      "command": "isabelle"
+    }
+  }
+}

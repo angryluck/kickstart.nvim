@@ -4,7 +4,7 @@ local s = ls.snippet
 -- local sn = ls.snippet_node
 local t = ls.text_node
 local i = ls.insert_node
--- local f = ls.function_node
+local f = ls.function_node
 -- local d = ls.dynamic_node
 -- local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
@@ -56,27 +56,76 @@ return {
   asm(";o", { t("\\omega") }),
   asm(";O", { t("\\Omega") }),
 
-  asm("ff", fmta("\\frac{<>}{<>}", { i(1), i(2) })),
-  asm("tf", fmta("\\tfrac{<>}{<>}", { i(1), i(2) })),
+  asm("ff", fmta("\\frac{<>}{<>} ", { i(1), i(2) })),
+  asm("tf", fmta("\\tfrac{<>}{<>} ", { i(1), i(2) })),
 
   asm({ trig = "__", wordTrig = false }, fmta("_{<>}", { i(1) })),
   asm({ trig = "^^", wordTrig = false }, fmta("^{<>}", { i(1) })),
 
   -- Math fonts (in this document, so they only trigger in math environments)
   -- See https://tex.stackexchange.com/questions/58098/what-are-all-the-font-styles-i-can-use-in-math-mode
-  asm("rm", fmta("\\mathrm{<>}", { i(1) })),
-  asm("bf", fmta("\\boldsymbol{<>}", { i(1) })),
-  asm("sf", fmta("\\mathsf{<>}", { i(1) })),
-  asm("it", fmta("\\mathit{<>}", { i(1) })),
-  asm("tt", fmta("\\mathtt{<>}", { i(1) })),
+  asm("rm", fmta("\\mathrm{<>} ", { i(1) })),
+  asm("bf", fmta("\\boldsymbol{<>} ", { i(1) })),
+  asm("sf", fmta("\\mathsf{<>} ", { i(1) })),
+  asm("it", fmta("\\mathit{<>} ", { i(1) })),
+  asm("tt", fmta("\\mathtt{<>} ", { i(1) })),
   -- These two normally not needed, as you would define "\R = \mathbb{R}",
   -- and so on.
   -- asm("bb", fmta("\\mathbb{<>}", { i(1) })),
-  asm("cal", fmta("\\mathcal{<>}", { i(1) })),
+  asm("cal", fmta("\\mathcal{<>} ", { i(1) })),
 
   -- Delimeters (in math). NEED CORRESPONDING DEFINITIONS IN PREAMBLE
-  asm("pp", fmta("\\lr{<>}", { i(1) })),
-  asm("ss", fmta("\\lrs{<>}", { i(1) })),
-  asm("cc", fmta("\\lrc{<>}", { i(1) })),
-  asm("sq", fmta("\\sqrt{<>}", { i(1) })),
+  asm("pp", fmta("\\lr{<>} ", { i(1) })),
+  asm("ss", fmta("\\lrs{<>} ", { i(1) })),
+  asm("cc", fmta("\\lrc{<>} ", { i(1) })),
+  asm("sq", fmta("\\sqrt{<>} ", { i(1) })),
+
+  -- Accents
+  asm("hat", fmta("\\hat{<>}", { i(1) })),
+  asm("bar", fmta("\\bar{<>}", { i(1) })),
+  asm("ol", fmta("\\overline{<>}", { i(1) })),
+
+  -- Misc
+  asm("sum", fmta("\\sum_{<>}^{<>} ", { i(1, "i=1"), i(2, "n") })),
+  asm("->", t("\\to ")),
+
+  asm({
+    trig = "([%a])(%d)",
+    name = "auto subscript 1",
+    regTrig = true,
+    wordTrig = false,
+    -- snippetType = "autosnippet",
+  }, {
+    f(function(_, snip)
+      return string.format("%s_%s", snip.captures[1], snip.captures[2])
+    end, {}),
+    i(0),
+  }),
+
+  asm({
+    trig = "([%a])_(%d%d)",
+    name = "auto subscript 2",
+    regTrig = true,
+    wordTrig = false,
+  }, {
+    f(function(_, snip)
+      return string.format("%s_{%s}", snip.captures[1], snip.captures[2])
+    end, {}),
+    i(0),
+  }),
+
+  asm({
+    trig = "([%w_]+)_(%w%w)",
+    name = "auto subscript 3",
+    regTrig = true,
+    wordTrig = true,
+    priority = 100,
+  }, {
+    f(function(_, snip)
+      return string.format("%s_{%s", snip.captures[1], snip.captures[2])
+    end, {}),
+    i(1),
+    t("}"),
+    i(0),
+  }),
 }

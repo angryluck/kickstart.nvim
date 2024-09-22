@@ -83,12 +83,12 @@ return {
         -- Manually trigger a completion from nvim-cmp (normally not needed)
         ["<C-Space>"] = cmp.mapping.complete({}),
         ["<C-l>"] = cmp.mapping(function()
-          if luasnip.expand_or_jumpable() then
+          if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           end
         end, { "i", "s" }),
         ["<C-j>"] = cmp.mapping(function()
-          if luasnip.expand_or_jumpable() then
+          if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           end
         end, { "n", "i", "s" }),
@@ -102,9 +102,15 @@ return {
             luasnip.jump(-1)
           end
         end, { "i", "s" }),
+
+        ["jk"] = cmp.mapping(function()
+          if luasnip.locally_jumpable() then
+            luasnip.jump(1)
+          end
+        end, { "i", "s" }),
         -- Better completions, especially for latex
         ["<Tab>"] = cmp.mapping(function(fallback)
-          if luasnip.expand_or_jumpable() then
+          if luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif luasnip.locally_jumpable(1) then
             luasnip.jump(1)

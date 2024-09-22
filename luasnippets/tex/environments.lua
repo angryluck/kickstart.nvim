@@ -88,4 +88,18 @@ return {
     ),
     { condition = line_begin }
   ),
+
+  -- Primært til programmering (MLA)
+  as(
+    "lst",
+    fmta(
+      [[
+  \begin{lstlisting}
+    <>
+  \end{lstlisting}
+  ]],
+      { i(1) }
+    ),
+    { condition = line_begin }
+  ),
 }
