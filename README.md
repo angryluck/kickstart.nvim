@@ -1,4 +1,6 @@
 # kickstart.nvim
+ARCHIVED - My Neovim configuration has been moved to home-manager, see https://github.com/angryluck/nixos-config.
+
 My personal fork of kickstart.nvim.
 Might contain reordering of folders, changes in documents, and so on.
 
